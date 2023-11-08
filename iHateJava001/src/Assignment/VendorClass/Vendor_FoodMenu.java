@@ -90,6 +90,12 @@ public class Vendor_FoodMenu extends javax.swing.JFrame {
 
         jLabel3.setText("Price:");
 
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
+
         txtQuantity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtQuantityActionPerformed(evt);
@@ -386,6 +392,10 @@ public class Vendor_FoodMenu extends javax.swing.JFrame {
         txtQuantity.setText(selectQuantity);
         txtPrice.setText(selectPrice);
     }//GEN-LAST:event_tblMenuMouseClicked
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
