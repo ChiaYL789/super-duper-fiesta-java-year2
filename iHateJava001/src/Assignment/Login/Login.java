@@ -200,7 +200,7 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Access granted, Welcome "+role);
                     switch (role){
                         case "admin":
-                            System.out.println("admin");
+                            new Assignment.RegisterPanel();
                             break;
                         case "runner":
                             System.out.println("runner");
