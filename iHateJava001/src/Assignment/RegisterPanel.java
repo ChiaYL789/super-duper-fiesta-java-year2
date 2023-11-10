@@ -12,6 +12,8 @@ package Assignment;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 public class RegisterPanel extends JFrame implements ActionListener {
@@ -36,16 +38,17 @@ public class RegisterPanel extends JFrame implements ActionListener {
     JMenuItem Read;
     JMenu TopUp;
     JMenuItem TopUP;
+   
     
     String textfile = RegisterPanel.FilePathChangeThis.renameThis;
       
 
     //////////file path class here
     class FilePathChangeThis {
-            public static final String renameThis = "C:\\Users\\yehli\\OneDrive\\Desktop\\art.txt";            
+            public static final String renameThis = "user_data.txt";            
     }    
     
-    RegisterPanel(){
+    public RegisterPanel(){
     
         //combobox choose type of user registration
         String [] type = {"Vendor", "Customer", "Runner"};
@@ -177,23 +180,57 @@ public class RegisterPanel extends JFrame implements ActionListener {
     //create user method, write in the txt.file
     public static void registerUser(FileWriter writer, String user, String pass, String power) {
         try {
-            writer.write(user + "," + pass + "," + power + "\n");
+            writer.write("\n"+ user + "," + pass + "," + power + "\n");
         
         } catch (IOException e) {
         
+        }finally {
+            try{
+                writer.close();
+            }catch(IOException e){
+                
+            }
         }
     }
     
+    //write user role into respective text file
+    public static void writeUser(String user, String power) throws IOException{
+        
+        
+        switch(power){
+            case "Vendor":
+                FileWriter vendorWriter = new FileWriter("food_menu.txt", true);
+                vendorWriter.write("\n"+ power +":" + user);
+                vendorWriter.close();
+                break;
+                
+            case "Customer": //customer.txt change to customer make de xxx.txt
+                FileWriter cusWriter = new FileWriter("customer.txt", true);
+                cusWriter.write("\n"+ power +":" + user);
+                cusWriter.close();
+                break;
+            
+            case"Runner": ///runner.txt change to runner make de xxx.txt
+                FileWriter runWriter = new FileWriter("runner.txt", true);
+                runWriter.write("\n"+ power +":" + user);
+                runWriter.close();
+                break;
+            }       
+        }
+        
+    
+    
     @Override
-    public void actionPerformed(ActionEvent e){//resetbutton
-        if(e.getSource()== resetButton){
+    public void actionPerformed(ActionEvent e){
+        
+        if(e.getSource()== resetButton){//resetbutton
             userIDField.setText("");
             userPasswordField.setText("");
             x.setSelectedIndex(0);
             
         }
         
-        if (e.getSource() == registerButton) {//registerbutton
+        if (e.getSource() == registerButton){//registerbutton
             
             try (FileWriter writer = new FileWriter(textfile, true)) {
                 user = userIDField.getText();
@@ -204,18 +241,31 @@ public class RegisterPanel extends JFrame implements ActionListener {
                 userIDField.setText("");
                 userPasswordField.setText("");                
                 JOptionPane.showMessageDialog(this, "Registration Successful");
+                 
+                writeUser(user, power);
                 
             }
-                catch (IOException ex) {            
-                    JOptionPane.showMessageDialog(this, "Error: Unable to register user.");
+            catch (IOException ex) {
+                System.out.println("Error: Unable to register user");              
+            }
+        }   
+              
             
-            }            
-        
-        }
+           
         
         //if menubar read pressed, read file
         if(e.getSource()==Read){
             readFile();
+        }
+        
+        //menubar update pressed
+        if(e.getSource()== Update){
+            displayTable();
+        }
+        
+        //menubar delete pressed
+        if(e.getSource()== Delete){
+            
         }
     } 
         
@@ -226,6 +276,7 @@ public class RegisterPanel extends JFrame implements ActionListener {
             
             StringBuilder content = new StringBuilder();
             String line;
+            
 
             while ((line = reader.readLine()) != null) {
                 content.append(line).append("\n");
@@ -255,12 +306,14 @@ public class RegisterPanel extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Error: Unable to read the file.");
         }
     }
-
     
+   
+
+}
     //update file, need create 2 files, 2 txt, cannot modify the ori, so is direct create new, 
     
     //delete file
-}       
+       
     
  
         
