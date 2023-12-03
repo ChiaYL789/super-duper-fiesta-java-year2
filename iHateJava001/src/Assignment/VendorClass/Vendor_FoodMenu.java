@@ -213,6 +213,7 @@ public class Vendor_FoodMenu extends javax.swing.JFrame {
     private void loadTable() {
         boolean isNameCorrect = false;
         DefaultTableModel tblModel = (DefaultTableModel) tblMenu.getModel();
+        tblModel.setRowCount(0);
 
         try (BufferedReader br = new BufferedReader(new FileReader(DATA_FILE))) {
             String line;
@@ -249,49 +250,53 @@ public class Vendor_FoodMenu extends javax.swing.JFrame {
         if (txtName.getText().isEmpty() || txtQuantity.getText().isEmpty() || txtPrice.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill in all the fields.");
         } else {
-            String name = txtName.getText();
-            String quantity = txtQuantity.getText();
-            String price = txtPrice.getText();
-            String foodItem = name + "," + quantity + "," + price;
+            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to add this item?", "Confirm addition", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                String name = txtName.getText();
+                String quantity = txtQuantity.getText();
+                String price = txtPrice.getText();
+                String foodItem = name + "," + quantity + "," + price;
 
-            boolean isVendorFound = false;
+                boolean isVendorFound = false;
 
-            try (BufferedReader br = new BufferedReader(new FileReader(DATA_FILE))) {
-                List<String> lines = new ArrayList<>();
+                try (BufferedReader br = new BufferedReader(new FileReader(DATA_FILE))) {
+                    List<String> lines = new ArrayList<>();
 
-                String line;
-                while ((line = br.readLine()) != null) {
-                    if (isVendorFound) {
-                        lines.add(foodItem);
-                        isVendorFound = false; // Reset the flag
-                    }
-
-                    if (line.startsWith("Vendor:")) {
-                        // Check if the vendor name matches the current user's username
-                        if (line.substring(7).trim().equals(username)) {
-                            isVendorFound = true;
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        if (isVendorFound) {
+                            lines.add(foodItem);
+                            isVendorFound = false; // Reset the flag
                         }
-                }
 
-                lines.add(line);
-            }
-
-                // Rewrite the data file with updated lines
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(DATA_FILE))) {
-                    for (String updatedLine : lines) {
-                        bw.write(updatedLine);
-                        bw.newLine();
+                        if (line.startsWith("Vendor:")) {
+                            // Check if the vendor name matches the current user's username
+                            if (line.substring(7).trim().equals(username)) {
+                                isVendorFound = true;
+                            }
                     }
+
+                    lines.add(line);
                 }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "An error occurred while adding the food item.");
-                e.printStackTrace();
+
+                    // Rewrite the data file with updated lines
+                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(DATA_FILE))) {
+                        for (String updatedLine : lines) {
+                            bw.write(updatedLine);
+                            bw.newLine();
+                        }
+                    }
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this, "An error occurred while adding the food item.");
+                    e.printStackTrace();
+                }
+
+                // Update the table with the new food item
+                DefaultTableModel tblModel = (DefaultTableModel) tblMenu.getModel();
+                tblModel.addRow(new String[]{name, quantity, price});
+
             }
-
-            // Update the table with the new food item
-            DefaultTableModel tblModel = (DefaultTableModel) tblMenu.getModel();
-            tblModel.addRow(new String[]{name, quantity, price});
-
+            
             // Clear the input fields
             txtName.setText("");
             txtQuantity.setText("");
@@ -307,26 +312,69 @@ public class Vendor_FoodMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        //get jtable model first
         DefaultTableModel tblModel = (DefaultTableModel) tblMenu.getModel();
-        
-        //delete row
-        if(tblMenu.getSelectedRowCount()==1){
-            //if single row is selected than delete
-            tblModel.removeRow(tblMenu.getSelectedRow());
-            
-        }else{
-            if(tblMenu.getRowCount()==0){
-                 //if table is empty(no data ) than display message
-                JOptionPane.showMessageDialog(this, "Table is empty.");
-            } else{
-                //if table is not empthy but row is not selected or multiple row is selected
-                JOptionPane.showMessageDialog(this,"Pease select a single row for delete");
+
+        if (tblMenu.getSelectedRowCount() == 1) {
+            int selectedRow = tblMenu.getSelectedRow();
+            String itemName = tblModel.getValueAt(selectedRow, 0).toString();
+            String itemQuantity = tblModel.getValueAt(selectedRow, 1).toString();
+            String itemPrice = tblModel.getValueAt(selectedRow, 2).toString();
+
+            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this item?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                tblModel.removeRow(selectedRow);
+                // Now, you can also remove the item from the data file if necessary.
+                removeItemFromDataFile(itemName, itemQuantity, itemPrice);
             }
-               
+        } else {
+            if (tblModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Table is empty.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a single row for deletion.");
+            }
         }
+        
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void removeItemFromDataFile(String itemName, String itemQuantity, String itemPrice){
+        try (BufferedReader br = new BufferedReader(new FileReader(DATA_FILE))){ //this method is used for if the line is not match to the food selected , it will save into a ArrayList
+            
+            List<String> lines = new ArrayList<>();
+            String line;
+            while ((line = br.readLine()) !=null){
+                String[] parts = line.split(",");
+                if (parts.length ==3){
+                    String name = parts[0];
+                    String quantity = parts[1];
+                    String price = parts[2];
+                    if(!name.equals(itemName)||!quantity.equals(itemQuantity)||!price.equals(itemPrice)){
+                        lines.add(line);
+                    }
+                }
+                if(line.startsWith("Vendor:")){
+                    lines.add(line);
+                }
+            }
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(DATA_FILE))) {
+                for (String updatedLine : lines) {
+                    bw.write(updatedLine);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "An error occurred while adding the food item.");
+                e.printStackTrace();
+        }   
+        
+        txtName.setText("");
+        txtQuantity.setText("");
+        txtPrice.setText("");
+
+        loadTable();
+   }     
+    
+
+    
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         DefaultTableModel tblModel = (DefaultTableModel) tblMenu.getModel();
         String selectName = tblModel.getValueAt(tblMenu.getSelectedRow(), 0).toString();
@@ -336,42 +384,52 @@ public class Vendor_FoodMenu extends javax.swing.JFrame {
         if (txtName.getText().isEmpty() || txtQuantity.getText().isEmpty() || txtPrice.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill in all the fields.");
         } else {
-            String name = txtName.getText();
-            String quantity = txtQuantity.getText();
-            String price = txtPrice.getText();
+            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to update this item?", "Confirm update", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                String name = txtName.getText();
+                String quantity = txtQuantity.getText();
+                String price = txtPrice.getText();
 
-            String selectedFoodItem = selectName + "," + selectQuantity + "," + selectPrice;
-            String updatedFoodItem = name + "," + quantity + "," + price;
-            
-            boolean isVendorFound = false;
-            boolean insideVendorSection = false;
+                String selectedFoodItem = selectName + "," + selectQuantity + "," + selectPrice; //String line based on the table
+                String updatedFoodItem = name + "," + quantity + "," + price; // String line based on the textbox
 
-            try (BufferedReader br = new BufferedReader(new FileReader(DATA_FILE))) {
+                boolean isVendorFound = false;
                 List<String> lines = new ArrayList<>();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    if (line.startsWith("Vendor:")) {
-                        if (line.substring(7).trim().equals(username)) {
-                            isVendorFound = true;
+
+                try (BufferedReader br = new BufferedReader(new FileReader(DATA_FILE))) {
+
+                    String line;
+
+
+                    while ((line = br.readLine()) != null) {
+                        String[] parts = line.split(",");
+                        if (parts.length ==3){
+                            String n = parts[0];
+                            String q = parts[1];
+                            String p = parts[2];
+                            if(!n.equals(selectName)||!q.equals(selectQuantity)||!p.equals(selectPrice)){
+                                lines.add(line);
+                            }
+                            if(n.equals(selectName)||q.equals(selectQuantity)||p.equals(selectPrice)){
+                                lines.add(updatedFoodItem);
+                            }               
                         }
-                        insideVendorSection = isVendorFound;
-                    }
-                    if (insideVendorSection) {
-                        if (line.equals(selectedFoodItem)) {
-                            // Replace the selected item with the updated item
-                            lines.add(updatedFoodItem);
-                        } else {
-                            lines.add(line);
+                        if(line.startsWith("Vendor:")){
+                                lines.add(line);
                         }
-                    } else {
-                        lines.add(line);
+
+                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(DATA_FILE))) {
+                    for (String updatedLine : lines) {
+                        bw.write(updatedLine);
+                        bw.newLine();
                     }
                 }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "An error occurred while updating the food item.");
-                e.printStackTrace();
+                }
+                } catch (IOException ex) {
+                    Logger.getLogger(Vendor_FoodMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-
+            
             // Clear the input fields
             txtName.setText("");
             txtQuantity.setText("");
