@@ -4,6 +4,7 @@
  */
 package Assignment.Login;
 
+import Assignment.AdminAll.RegisterPanel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -219,49 +220,41 @@ public class Login extends javax.swing.JFrame {
         String username = userName_txt.getText();
         char[] passwordChars = password_txt.getPassword();
         String password = new String(passwordChars);
-        
+
         try (BufferedReader br = new BufferedReader(new FileReader(DATA_FILE))) {
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] parts = line.split(",");
-            if (parts.length == 3) {
-                String storedUsername = parts[0];
-                String storedPassword = parts[1];
-                String role = parts[2];
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 4) {
 
-                if (username.equals(storedUsername) && password.equals(storedPassword)) {
-                    JOptionPane.showMessageDialog(this, "Access granted, Welcome "+role);
-                    switch (role){
-                        case "admin":
-                            new Assignment.AdminAll.RegisterPanel();
-                            this.dispose();
-                            break;
-                        case "runner":
-                            System.out.println("runner");
-                            break;
-                        case "vendor":
-                            Assignment.VendorClass.Vendor_MainMenu mm = new Assignment.VendorClass.Vendor_MainMenu(storedUsername); //Transfer to vendor class page
-                            mm.setVisible(true);
-                            this.dispose();
-                            break;
-                        case "customer":
-                            System.out.println("customer");   
-                            break;
+                    String storedUsername = parts[1];
+                    String storedPassword = parts[2];
+                    String role = parts[3];
+
+                    if (username.equals(storedUsername) && password.equals(storedPassword)) {
+                        JOptionPane.showMessageDialog(this, "Access granted, Welcome " + role);
+                        switch (role) {
+                            case "admin" -> {
+                                RegisterPanel registerPanel = new RegisterPanel(); // Create an instance of RegisterPanel
+                                registerPanel.setVisible(true);
+                                this.dispose();
+                            }
+                            case "runner" -> System.out.println("runner");
+                            case "vendor" -> {
+                                Assignment.VendorClass.Vendor_MainMenu mm = new Assignment.VendorClass.Vendor_MainMenu(storedUsername); //Transfer to vendor class page
+                                mm.setVisible(true);
+                                this.dispose();
+                            }
+                            case "customer" -> System.out.println("customer");
+                        }
                     }
-                        
-                    
-
-                    
                 }
             }
         }
-    } catch (IOException e) {
-        System.out.println("Login failed. Please check your username and password.");
-        e.printStackTrace();
-        
-    }
-
-
+        catch (IOException e) {
+            System.out.println("Login failed. Please check your username and password.");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_LOGIN_btnActionPerformed
 
 
