@@ -43,7 +43,6 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     JMenuItem Register;
     JMenuItem Modify;
     JMenuItem Read;
-    JMenu TopUp;
     JMenuItem TopUP;
     JPanel contentPanel = new JPanel(new BorderLayout());
 
@@ -62,14 +61,12 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         //menu bar
         menuBar = new JMenuBar();
         Registration = new JMenu("Option");
-        TopUp = new JMenu("Top-Up");
         Register = new JMenuItem("Register");
         Modify = new JMenuItem("Modify");
         TopUP = new JMenuItem("Top-Up");
         Read = new JMenuItem("Read");
 
-        Registration.addActionListener(this);
-        TopUp.addActionListener(this);
+        Registration.addActionListener(this);        
         Register.addActionListener(this);
         Modify.addActionListener(this);
         TopUP.addActionListener(this);
@@ -78,10 +75,9 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         Registration.add(Register);
         Registration.add(Read);
         Registration.add(Modify);
-        TopUp.add(TopUP);
+        Registration.add(TopUP);        
 
         menuBar.add(Registration);
-        menuBar.add(TopUp);
 
         //username
         userLabel = new JLabel("Username: ");
@@ -226,28 +222,39 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         jpanel_TopUp.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
+        
         gbc.gridx = 0;
         gbc.gridy = 0;
         jpanel_TopUp.add(comboboxName, gbc);
+        
         gbc.gridx = 1;
         jpanel_TopUp.add(idLabel, gbc);
+        
         gbc.gridx = 2;
         jpanel_TopUp.add(creditLabel, gbc);
+        
         gbc.gridx = 0;
         gbc.gridy = 1;
         jpanel_TopUp.add(topUpAmountLabel, gbc);
+        
         gbc.gridx = 1;
         jpanel_TopUp.add(creditInput, gbc);
+        
+        gbc.gridx = 2;
+        jpanel_TopUp.add(topUpButton, gbc);
+        
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        jpanel_TopUp.add(topUpButton, gbc);
+        jpanel_TopUp.add(notifButton, gbc);
+        
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.CENTER;
         jpanel_TopUp.add(receiptButton, gbc);
+        
         jframe_TopUp.add(jpanel_TopUp);
         jframe_TopUp.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 50));
         jframe_TopUp.setSize(500, 500);
@@ -315,9 +322,15 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
 
     }
     
-    //send notif method
+    // action performed methods for notif button at top up menu
     private void notifButtonActionPerformed() {
-        //send notifications method here
+        sendNotif2Customer();
+    }
+    
+    // send notif method
+    public void sendNotif2Customer() {
+        JOptionPane.showMessageDialog(this, "Notifications Sent To Customer!");
+        // add thing to customer
     }
 
     // Receipt JFrame @ TopUP menu variable declarations
@@ -337,7 +350,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         jpanel_Receipt.setPreferredSize(new Dimension(400, 400));
 
         jframe_Receipt = new JFrame("Receipt");
-        jframe_Receipt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jframe_Receipt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jframe_Receipt.getContentPane().add(jpanel_Receipt);
         jframe_Receipt.pack();
         jframe_Receipt.setLocationRelativeTo(null);
@@ -434,7 +447,6 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         }
         else if (e.getSource() == TopUP) {
             TopUpMenu(); // TopUp Menu JFrame
-            this.dispose();
         }
     }
 
