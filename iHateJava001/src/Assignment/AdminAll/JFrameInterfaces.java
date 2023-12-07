@@ -22,11 +22,11 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         public static final String renameThis = "user_data.txt";
     }
 
-    // variable declaration for initializeRead method, which calls the Read Class
-    private Read read;
+    // variable declaration for initializeRead method, which calls the ReadContents Class
+    private ReadContents read;
 
     public void initializeRead() {
-        read = new Read();
+        read = new ReadContents();
     }
 
     // variable declarations for RegisterPanel
@@ -434,7 +434,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Please fill in all the details!");
             }
         }
-        else if (e.getSource() == Read) { //if menubar Read pressed, Read file
+        else if (e.getSource() == Read) { //if menubar ReadContents pressed, ReadContents file
             initializeRead();
             read.ReadInterface();
         }
@@ -442,7 +442,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             initializeRead();
             if (read != null) {
                 read.UpdateAndDelete();
-                EditModeManager.enterEditMode();
+                ReadContents.enterEditMode(); ///here
             }
         }
         else if (e.getSource() == TopUP) {

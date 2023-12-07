@@ -8,9 +8,9 @@ import java.io.*;
 import java.util.*;
 import javax.swing.table.*;
 
-public class Read extends JFrame implements ActionListener, MouseListener {
+public class ReadContents extends JFrame implements ActionListener, MouseListener {
 
-    Read() {
+    ReadContents() {
     }
 
     // variable declarations for readinterface method
@@ -20,7 +20,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
     JFrame jframe_Read;
     JScrollPane jscrollpane_Read;
 
-    // Read Table interface 
+    // ReadContents Table interface 
     void ReadInterface() {
 
         jframe_Read = new JFrame("Read");
@@ -235,7 +235,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
     // (MouseEvent) mouse clicked method
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (EditModeManager.isInEditMode()) {
+        if (ReadContents.isInEditMode()) {
             int i = jtable.getSelectedRow(); ///i is the index of the selected row
             DefaultTableModel model = (DefaultTableModel) jtable.getModel();
             idText_Edit.setText(model.getValueAt(i, 0).toString());
@@ -249,6 +249,20 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    private static boolean isInEditMode = false;
+
+    public static void enterEditMode() {
+        isInEditMode = true;
+    }
+
+    public static void exitEditMode() {
+        isInEditMode = false;
+    }
+
+    public static boolean isInEditMode() {
+        return isInEditMode;
+    }
+    
     @Override
     public void mousePressed(MouseEvent e) {
 
