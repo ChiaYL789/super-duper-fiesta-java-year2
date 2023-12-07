@@ -14,7 +14,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     public JFrameInterfaces() {
     }
 
-    //////////file path class here    
+    ///// file path class here    
     String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
 
     class FilePathChangeThis {
@@ -47,7 +47,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     JMenuItem TopUP;
     JPanel contentPanel = new JPanel(new BorderLayout());
 
-    // Register Panel Jframe interface
+    // Register Panel Jframe i
     public void RegisterPanel() {
 
         fop = new FileOperations();
@@ -183,14 +183,13 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     JButton topUpButton; // when clicked top up
     JButton receiptButton;
     JButton notifButton;
-
     private JLabel idLabel;
     private JLabel creditLabel;
     private JComboBox<String> comboboxName;
     private final java.util.List<String[]> customerData = new ArrayList<>();
     private double currentCredit;
 
-    // Top UP Menu JFrame Interface
+    // Top UP Menu JFrame 
     public void TopUpMenu() {
 
         java.util.List<String[]> customerData = readCustomerData(textfile);
@@ -257,7 +256,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         jframe_TopUp.setVisible(true);
     }
 
-    // action performed methods for top up menu
+    // action performed methods for combobox at top up menu
     private void comboboxActionPerformed() {
         int selectedIndex = comboboxName.getSelectedIndex();
         if (selectedIndex != -1) {
@@ -269,7 +268,8 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             creditLabel.setText("Credit: " + credit);
         }
     }
-
+        
+    // action performed methods for topUp button at top up menu
     private void topUpButtonActionPerformed() {
         try {
             double topUpCreditAmount = Double.parseDouble(creditInput.getText());
@@ -304,7 +304,8 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Please input Amount ", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
-
+    
+    // action performed methods for receipt button at top up menu
     private void receiptButtonActionPerformed() {
         ReceiptInterfaceJFrame();
         String credit = getCreditAmount();
@@ -313,12 +314,13 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                 + "   ----- THANK YOU! -----");
 
     }
-
+    
+    //send notif method
     private void notifButtonActionPerformed() {
         //send notifications method here
     }
 
-    // Top up menu variable declarations
+    // Receipt JFrame @ TopUP menu variable declarations
     JFrame jframe_Receipt;
     JPanel jpanel_Receipt;
     JTextArea textareaReceipt;
@@ -342,12 +344,12 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         jframe_Receipt.setVisible(true);
     }
 
-    // get credit amount from textbox
+    // get credit amount from textbox method
     public String getCreditAmount() {
         return creditInput.getText();
     }
 
-    // set text area receipt
+    // set text area receipt method
     public void setTextAreaReceipt(String s) {
         textareaReceipt.setText(s);
     }
