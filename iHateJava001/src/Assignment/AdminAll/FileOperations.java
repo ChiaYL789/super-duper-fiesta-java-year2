@@ -9,8 +9,6 @@ import javax.swing.table.TableModel;
 
 public class FileOperations {
 
-    static ArrayList<String> usersList = new ArrayList<>();
-
     // Read Table JFrame
     public static void read2JFrame(String textfile, JFrame parentFrame) {
         List<String> content = readFile(textfile);
