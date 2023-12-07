@@ -4,8 +4,8 @@
  */
 package Assignment.Login;
 
-import Assignment.AdminAll.RegisterPanel;
-import Assignment.AdminAll.RegisterPanel;
+import Assignment.AdminAll.JFrameInterfaces;
+import Assignment.AdminAll.JFrameInterfaces;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -235,8 +235,9 @@ public class Login extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Access granted, Welcome " + role);
                         switch (role) {
                             case "admin" -> {
-                                RegisterPanel registerPanel = new RegisterPanel(); // Create an instance of RegisterPanel
-                                registerPanel.setVisible(true);
+                                JFrameInterfaces jframeinterfaces = new JFrameInterfaces(); // Create an instance of JFrameInterfaces
+                                jframeinterfaces.RegisterPanel();
+                                jframeinterfaces.setVisible(true);
                                 this.dispose();
                                 
                             }

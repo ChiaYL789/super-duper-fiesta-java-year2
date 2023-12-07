@@ -118,10 +118,9 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         public void clearFileData() {
             filedata.clear();
         }
-    }
+    }    
     
-    
-    String textfile = RegisterPanel.FilePathChangeThis.renameThis;
+    String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
     
     public void clearTextFile(String textfile) {
         try(FileWriter fw = new FileWriter(textfile)) {
@@ -167,7 +166,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
 
     Object[][] getData() {
         try {
-            String textfile = RegisterPanel.FilePathChangeThis.renameThis;
+            String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
             BufferedReader br = new BufferedReader(new FileReader(textfile));
             ArrayList<String> list = new ArrayList();
             String str = "";
