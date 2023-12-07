@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 
-public class FileOperations {   
-    
+public class FileOperations {
+
     static ArrayList<String> usersList = new ArrayList<>();
-   
+
+    // Read Table JFrame
     public static void read2JFrame(String textfile, JFrame parentFrame) {
         List<String> content = readFile(textfile);
 
@@ -20,7 +21,7 @@ public class FileOperations {
             String name = userDetails[1];
             String password = userDetails[2];
             String role = userDetails[3];
-            double credit = Double.parseDouble(userDetails[4]);            
+            double credit = Double.parseDouble(userDetails[4]);
             //textArea
             JTextArea readTextArea = new JTextArea(content.toString());
             readTextArea.setWrapStyleWord(true);
@@ -39,7 +40,8 @@ public class FileOperations {
             JOptionPane.showMessageDialog(parentFrame, readScrollPane, "File Contents", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-         
+
+    // read file method
     public static List<String> readFile(String textfile) { //read file from textfile
         try (BufferedReader reader = new BufferedReader(new FileReader(textfile))) {
             List<String> content = new ArrayList<>();
@@ -55,7 +57,8 @@ public class FileOperations {
             return null;
         }
     }
-        
+
+    // register new user method
     public static void registerNewUser(FileWriter writer, String textfile, String user, String pass, String power, double credit) {
         // registerNewUser method
         List<String> str = readFile(textfile);
@@ -92,6 +95,7 @@ public class FileOperations {
         }
     }
 
+    // make another copy of registered user in anther text file method
     public static void registerUser2OtherTxt(String user, String power) throws IOException {
         //write user role into respective text file this is for vendor, vendorname+vendor(power)
         switch (power) {
@@ -113,11 +117,13 @@ public class FileOperations {
         }
     }
 
+    // generate userID method
     private static String generateUserID(String power, int startingID) { //generate userID method
         String prefix = getPrefix(power);
         return prefix + String.format("%03d", startingID);
     }
-        
+
+    // generate the prefix in front of userID method
     private static String getPrefix(String power) { //get prefix
         switch (power) {
             case "Vendor":
@@ -131,6 +137,5 @@ public class FileOperations {
         }
         return null;
     }
-    
-    
+
 }

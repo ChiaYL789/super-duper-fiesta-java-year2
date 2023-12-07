@@ -20,6 +20,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
     JFrame jframe_Read;
     JScrollPane jscrollpane_Read;
 
+    // Read Table interface 
     void ReadInterface() {
 
         jframe_Read = new JFrame("Read");
@@ -43,7 +44,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         jframe_Read.setDefaultCloseOperation(jframe_Read.DISPOSE_ON_CLOSE);
         jframe_Read.setVisible(true);
     }
-    
+
     // variable declarations for update&delete method
     JFrame jframe_Edit;
     JTextField idText_Edit;
@@ -107,6 +108,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         jframe_Edit.setVisible(true);
     }
 
+    // nested class with user data details results, where the arraylist stores the user data read from the text file
     private class UserDataDetailsResults {
 
         private List<String[]> filedata;
@@ -124,8 +126,10 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    // filepath 
     String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
 
+    //clear text file before rewriting text file method
     public void clearTextFile(String textfile) {
         try (FileWriter fw = new FileWriter(textfile)) {
 
@@ -135,6 +139,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    // user data details put into table method
     private UserDataDetailsResults userDataDetails(DefaultTableModel model) { //retrieve table data and put in arraylist
         int row = model.getRowCount();
         List<String[]> filedata = new ArrayList<>();
@@ -150,6 +155,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         return new UserDataDetailsResults(filedata);
     }
 
+    // save file method
     public static void saveNewFile(String textfile, DefaultTableModel model) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(textfile, true))) {
             for (int row = 0; row < model.getRowCount(); row++) {
@@ -169,6 +175,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    // data retrieved converted into a  2d array list of "Objects"
     Object[][] getData() {
         try {
             String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
@@ -192,6 +199,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    // (ActionEvent) action performed method
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == deleteButton_Edit) { // delete button
@@ -224,6 +232,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         }
     }
 
+    // (MouseEvent) mouse clicked method
     @Override
     public void mouseClicked(MouseEvent e) {
         if (EditModeManager.isInEditMode()) {

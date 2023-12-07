@@ -66,7 +66,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         TopUP = new JMenuItem("Top-Up");
         Read = new JMenuItem("Read");
 
-        Registration.addActionListener(this);        
+        Registration.addActionListener(this);
         Register.addActionListener(this);
         Modify.addActionListener(this);
         TopUP.addActionListener(this);
@@ -75,7 +75,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         Registration.add(Register);
         Registration.add(Read);
         Registration.add(Modify);
-        Registration.add(TopUP);        
+        Registration.add(TopUP);
 
         menuBar.add(Registration);
 
@@ -222,39 +222,39 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         jpanel_TopUp.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-        
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         jpanel_TopUp.add(comboboxName, gbc);
-        
+
         gbc.gridx = 1;
         jpanel_TopUp.add(idLabel, gbc);
-        
+
         gbc.gridx = 2;
         jpanel_TopUp.add(creditLabel, gbc);
-        
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         jpanel_TopUp.add(topUpAmountLabel, gbc);
-        
+
         gbc.gridx = 1;
         jpanel_TopUp.add(creditInput, gbc);
-        
+
         gbc.gridx = 2;
         jpanel_TopUp.add(topUpButton, gbc);
-        
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         jpanel_TopUp.add(notifButton, gbc);
-        
+
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.CENTER;
         jpanel_TopUp.add(receiptButton, gbc);
-        
+
         jframe_TopUp.add(jpanel_TopUp);
         jframe_TopUp.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 50));
         jframe_TopUp.setSize(500, 500);
@@ -275,7 +275,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             creditLabel.setText("Credit: " + credit);
         }
     }
-        
+
     // action performed methods for topUp button at top up menu
     private void topUpButtonActionPerformed() {
         try {
@@ -311,7 +311,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Please input Amount ", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
     // action performed methods for receipt button at top up menu
     private void receiptButtonActionPerformed() {
         ReceiptInterfaceJFrame();
@@ -321,12 +321,12 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                 + "   ----- THANK YOU! -----");
 
     }
-    
+
     // action performed methods for notif button at top up menu
     private void notifButtonActionPerformed() {
         sendNotif2Customer();
     }
-    
+
     // send notif method
     public void sendNotif2Customer() {
         JOptionPane.showMessageDialog(this, "Notifications Sent To Customer!");
