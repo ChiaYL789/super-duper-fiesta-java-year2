@@ -9,30 +9,32 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class JFrameInterfaces extends JFrame implements ActionListener {   
-     
-    public JFrameInterfaces(){
+public class JFrameInterfaces extends JFrame implements ActionListener {
+
+    public JFrameInterfaces() {
     }
-    
+
     //////////file path class here    
     String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
+
     class FilePathChangeThis {
-        public static final String renameThis = "user_data.txt";            
-    }    
-    
+
+        public static final String renameThis = "user_data.txt";
+    }
+
     // variable declaration for initializeRead method, which calls the Read Class
     private Read read;
 
     public void initializeRead() {
         read = new Read();
-    }      
-    
+    }
+
     // variable declarations for RegisterPanel
     ImageIcon logo;
     JLabel userLabel;
     JLabel passLabel;
     JTextField userIDField;
-    JPasswordField userPasswordField; 
+    JPasswordField userPasswordField;
     JComboBox x;
     JButton registerButton;
     JButton resetButton;
@@ -44,109 +46,107 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     JMenu TopUp;
     JMenuItem TopUP;
     JPanel contentPanel = new JPanel(new BorderLayout());
-    
+
     // Register Panel Jframe interface
-    public void RegisterPanel(){
-    
+    public void RegisterPanel() {
+
         fop = new FileOperations();
-        
+
         //combobox choose type of user registration
-        String [] type = {"Vendor", "Customer", "Runner"};
+        String[] type = {"Vendor", "Customer", "Runner"};
         x = new JComboBox(type);
         x.setBounds(175, 200, 200, 25);
-        x.addActionListener(this);        
+        x.addActionListener(this);
         x.setSelectedIndex(0);
-        
+
         //menu bar
-        menuBar= new JMenuBar();        
+        menuBar = new JMenuBar();
         Registration = new JMenu("Option");
         TopUp = new JMenu("Top-Up");
         Register = new JMenuItem("Register");
         Modify = new JMenuItem("Modify");
         TopUP = new JMenuItem("Top-Up");
         Read = new JMenuItem("Read");
-        
+
         Registration.addActionListener(this);
         TopUp.addActionListener(this);
         Register.addActionListener(this);
         Modify.addActionListener(this);
         TopUP.addActionListener(this);
         Read.addActionListener(this);
-        
+
         Registration.add(Register);
         Registration.add(Read);
         Registration.add(Modify);
         TopUp.add(TopUP);
-        
+
         menuBar.add(Registration);
         menuBar.add(TopUp);
-        
+
         //username
         userLabel = new JLabel("Username: ");
         //setbounds
-        userLabel.setBounds(50,100, 125,25);
+        userLabel.setBounds(50, 100, 125, 25);
         userLabel.setFont(new Font("Comic MS", Font.PLAIN, 20));
-        
+
         userIDField = new JTextField();
-        userIDField.setPreferredSize(new Dimension(250,40));
+        userIDField.setPreferredSize(new Dimension(250, 40));
         userIDField.setFont(new Font("Consolas", Font.PLAIN, 12));
         userIDField.setForeground(Color.BLACK);
         userIDField.setBackground(Color.WHITE);
         userIDField.setCaretColor(Color.BLACK);
         //setbounds
-        userIDField.setBounds(175, 100,200,25);
+        userIDField.setBounds(175, 100, 200, 25);
         userIDField.setEnabled(true);
         userIDField.setEditable(true);
-                 
-               
+
         //password
         passLabel = new JLabel("Password: ");
         //setbounds
-        passLabel.setBounds(55,150, 125,25);
-        passLabel.setFont(new Font("Comic MS", Font.PLAIN, 20));  
-        
+        passLabel.setBounds(55, 150, 125, 25);
+        passLabel.setFont(new Font("Comic MS", Font.PLAIN, 20));
+
         this.userPasswordField = new JPasswordField();
-        userPasswordField.setPreferredSize(new Dimension(250,40));
+        userPasswordField.setPreferredSize(new Dimension(250, 40));
         userPasswordField.setFont(new Font("Consolas", Font.PLAIN, 12));
         userPasswordField.setForeground(Color.BLACK);
         userPasswordField.setBackground(Color.WHITE);
         userPasswordField.setCaretColor(Color.BLACK);
         //setbounds
-        userPasswordField.setBounds(175, 150,200,25);
+        userPasswordField.setBounds(175, 150, 200, 25);
         userPasswordField.setEnabled(true);
         userPasswordField.setEditable(true);
-      
-        
+
         //remove spaces
         userIDField.addKeyListener(new KeyAdapter() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            if (e.getKeyChar() == ' ') {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == ' ') {
                     e.consume(); // Consume the space character
                 }
             }
         });
-                
+
         userPasswordField.addKeyListener(new KeyAdapter() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            if (e.getKeyChar() == ' ') {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == ' ') {
                     e.consume(); // Consume the space character
                 }
             }
         });
-        
+
         //register and reset button
         registerButton = new JButton("Register");
-        registerButton.setBounds(250,250,100,25);
+        registerButton.setBounds(250, 250, 100, 25);
         registerButton.setFocusable(false);
         registerButton.addActionListener(this);
-        
+
         resetButton = new JButton("Reset");
-        resetButton.setBounds(100,250,100,25);
+        resetButton.setBounds(100, 250, 100, 25);
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
-        
+
         //content panel
         contentPanel.setBounds(50, 300, 400, 300);
         contentPanel.setLayout(new BorderLayout()); // BorderLayout for simplicity
@@ -160,7 +160,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         this.setTitle("Registration");
         logo = new ImageIcon("C:\\Users\\yehli\\Downloads\\rider.png");
         this.setIconImage(logo.getImage());
-  
+
         this.add(userLabel);
         this.add(passLabel);
         this.add(userIDField);
@@ -169,12 +169,12 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         this.add(registerButton);
         this.add(resetButton);
         this.setJMenuBar(menuBar);
-        this.add(contentPanel); 
-        
-        this.setVisible(true);                  
-    
+        this.add(contentPanel);
+
+        this.setVisible(true);
+
     }
-    
+
     // variable declarations for top up menu
     JFrame jframe_TopUp;
     JPanel jpanel_TopUp;
@@ -185,14 +185,13 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     JButton notifButton;
 
     private JLabel idLabel;
-    private JLabel creditLabel; 
+    private JLabel creditLabel;
     private JComboBox<String> comboboxName;
     private final java.util.List<String[]> customerData = new ArrayList<>();
     private double currentCredit;
 
     // Top UP Menu JFrame Interface
-    public void TopUpMenu(){
-        
+    public void TopUpMenu() {
 
         java.util.List<String[]> customerData = readCustomerData(textfile);
 
@@ -255,11 +254,11 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         jframe_TopUp.setSize(500, 500);
         jframe_TopUp.setLocationRelativeTo(null);
         jframe_TopUp.setDefaultCloseOperation(jframe_TopUp.DISPOSE_ON_CLOSE);
-        jframe_TopUp.setVisible(true);        
+        jframe_TopUp.setVisible(true);
     }
-    
+
     // action performed methods for top up menu
-        private void comboboxActionPerformed() {
+    private void comboboxActionPerformed() {
         int selectedIndex = comboboxName.getSelectedIndex();
         if (selectedIndex != -1) {
             String[] selectedCustomer = customerData.get(selectedIndex);
@@ -311,31 +310,31 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         String credit = getCreditAmount();
         textareaReceipt.setText(" --------- RECEIPT ----------\n\n"
                 + "Top Up Success: RM " + credit + "\n\n"
-                + "   ----- THANK YOU! -----");        
-       
+                + "   ----- THANK YOU! -----");
+
     }
-    
+
     private void notifButtonActionPerformed() {
         //send notifications method here
     }
-    
+
     // Top up menu variable declarations
     JFrame jframe_Receipt;
     JPanel jpanel_Receipt;
     JTextArea textareaReceipt;
-    
+
     // ReceiptInterface JFrame
     void ReceiptInterfaceJFrame() {
         textareaReceipt = new JTextArea("", 20, 5);
         textareaReceipt.setEditable(false);
         textareaReceipt.setFocusable(false);
-        textareaReceipt.setBounds(10, 70, 290, 80);        
+        textareaReceipt.setBounds(10, 70, 290, 80);
 
         jpanel_Receipt = new JPanel();
         jpanel_Receipt.add(textareaReceipt);
         jpanel_Receipt.setPreferredSize(new Dimension(400, 400));
-        
-        jframe_Receipt = new JFrame("Receipt");        
+
+        jframe_Receipt = new JFrame("Receipt");
         jframe_Receipt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe_Receipt.getContentPane().add(jpanel_Receipt);
         jframe_Receipt.pack();
@@ -352,7 +351,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     public void setTextAreaReceipt(String s) {
         textareaReceipt.setText(s);
     }
-    
+
     // read CustomerData method
     public java.util.List<String[]> readCustomerData(String textfile) {
         try (BufferedReader br = new BufferedReader(new FileReader(textfile))) {
@@ -384,7 +383,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     private String power;
     private int startingID;
     private double credit;
-    
+
     // action performed methods for RegisterPanel JFrame
     @Override
     public void actionPerformed(ActionEvent e) {
