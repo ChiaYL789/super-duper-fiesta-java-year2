@@ -10,17 +10,18 @@ import javax.swing.table.*;
 
 public class Read extends JFrame implements ActionListener, MouseListener {
 
+    Read() {
+    }
+
+    // variable declarations for readinterface method
     JTable jtable;
     String[] col;
     Object[][] data;
     JFrame jframe_Read;
-    JScrollPane jscrollpane_Read;    
-    
-    Read() {
-    }
-    
-    void ReadInterface(){
-        
+    JScrollPane jscrollpane_Read;
+
+    void ReadInterface() {
+
         jframe_Read = new JFrame("Read");
         col = new String[]{"UserID", "Name", "Password", "Role", "Credit"};
         data = getData();
@@ -40,9 +41,10 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         jframe_Read.pack();
         jframe_Read.setLocationRelativeTo(null);
         jframe_Read.setDefaultCloseOperation(jframe_Read.DISPOSE_ON_CLOSE);
-        jframe_Read.setVisible(true);    
+        jframe_Read.setVisible(true);
     }
-
+    
+    // variable declarations for update&delete method
     JFrame jframe_Edit;
     JTextField idText_Edit;
     JTextField nameText_Edit;
@@ -53,7 +55,8 @@ public class Read extends JFrame implements ActionListener, MouseListener {
     JButton deleteButton_Edit;
     JScrollPane jscrollpane_Edit;
 
-    void UpdateAndDelete() { // UpdateAndDelete method for update and delete        
+    // UpdateAndDelete method for update and delete 
+    void UpdateAndDelete() {
         jframe_Edit = new JFrame("Edit");
         col = new String[]{"UserID", "Name", "Password", "Role", "Credit"};
         data = getData();
@@ -103,57 +106,59 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         jframe_Edit.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         jframe_Edit.setVisible(true);
     }
-    
+
     private class UserDataDetailsResults {
+
         private List<String[]> filedata;
-        
+
         public UserDataDetailsResults(List<String[]> filedata) {
             this.filedata = filedata;
         }
-        
+
         public List<String[]> getFileData() {
             return filedata;
         }
-        
+
         public void clearFileData() {
             filedata.clear();
         }
-    }    
-    
+    }
+
     String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
-    
+
     public void clearTextFile(String textfile) {
-        try(FileWriter fw = new FileWriter(textfile)) {
-            
-        } catch (IOException e) {
+        try (FileWriter fw = new FileWriter(textfile)) {
+
+        }
+        catch (IOException e) {
             System.out.println(e);
         }
     }
-    
+
     private UserDataDetailsResults userDataDetails(DefaultTableModel model) { //retrieve table data and put in arraylist
         int row = model.getRowCount();
-        List<String []> filedata = new ArrayList<>();
-        for(int i = 0; i < row; i++) {
+        List<String[]> filedata = new ArrayList<>();
+        for (int i = 0; i < row; i++) {
             String UserID = model.getValueAt(i, 0).toString();
             String Name = model.getValueAt(i, 1).toString();
             String Password = model.getValueAt(i, 2).toString();
             String Role = model.getValueAt(i, 3).toString();
             String Credit = model.getValueAt(i, 4).toString();
-            String [] userDetails = {UserID, Name, Password, Role, Credit };
+            String[] userDetails = {UserID, Name, Password, Role, Credit};
             filedata.add(userDetails);
         }
         return new UserDataDetailsResults(filedata);
     }
-    
+
     public static void saveNewFile(String textfile, DefaultTableModel model) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(textfile, true))) {                             
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(textfile, true))) {
             for (int row = 0; row < model.getRowCount(); row++) {
                 StringJoiner joiner = new StringJoiner(",");
                 for (int col = 0; col < model.getColumnCount(); col++) {
                     Object obj = model.getValueAt(row, col);
                     String value = obj == null ? "null" : obj.toString();   //Checks if 'obj' is null. If so, assigns "null" to 'value';
                     joiner.add(value);                             // otherwise, converts 'obj' to a string using its toString() method and sets that as 'value'.
-                                                                            // This prevents potential NullPointerExceptions when handling 'obj'.                    
+                    // This prevents potential NullPointerExceptions when handling 'obj'.                    
                 }
                 bw.write(joiner.toString());
                 bw.newLine();
@@ -162,7 +167,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         catch (IOException exp) {
             exp.printStackTrace();
         }
-    }       
+    }
 
     Object[][] getData() {
         try {
@@ -186,7 +191,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
             return null;
         }
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == deleteButton_Edit) { // delete button
@@ -210,7 +215,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
                 model.setValueAt(nameText_Edit.getText(), i, 1);
                 model.setValueAt(passText_Edit.getText(), i, 2);
                 model.setValueAt(roleText_Edit.getText(), i, 3);
-                model.setValueAt(creditText_Edit.getText(), i, 4);                
+                model.setValueAt(creditText_Edit.getText(), i, 4);
                 saveNewFile("user_data.txt", model);
             }
             else {
@@ -237,22 +242,22 @@ public class Read extends JFrame implements ActionListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-    
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-    
+
     }
 
 }
