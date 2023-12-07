@@ -10,3 +10,10 @@ Customer:asdf
 Customer:aaa
 Customer:sharjk
 Customer:puppy
+Customer:jiken
+Customer:timmy
+Customer:duck
+Customer:daniel
+Customer:kiddo
+Customer:cokecola
+Customer:sprite

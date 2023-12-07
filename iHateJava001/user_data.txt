@@ -1,3 +1,8 @@
-AD1,a,a,admin,123
 CT1,sharjk,customer,Customer,15282.0
 CT2,puppy,huhuh,Customer,8152.0
+CT3,kiddo,dog,Customer,0.0
+CT4,cokecola,lalala,Customer,0.0
+CT5,sprite,1234,Customer,111.0
+AD1,a,a,admin,123.0
+VD1,100plus,soda,Vendor,0.0
+RN1,pepsi,asdf,Runner,0.0

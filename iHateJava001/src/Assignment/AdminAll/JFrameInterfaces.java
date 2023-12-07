@@ -4,10 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 public class JFrameInterfaces extends JFrame implements ActionListener {
 
@@ -182,23 +181,37 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     private JLabel idLabel;
     private JLabel creditLabel;
     private JComboBox<String> comboboxName;
-    private final java.util.List<String[]> customerData = new ArrayList<>();
+    private java.util.List<String[]> retrieveCustomerData = new ArrayList<>();    
+    private java.util.List<String[]> retrieveOtherData = new ArrayList<>();
     private double currentCredit;
 
     // Top UP Menu JFrame 
     public void TopUpMenu() {
-
-        java.util.List<String[]> customerData = readCustomerData(textfile);
-
+        
+        Map<String, java.util.List<String[]>> retrievedMap = processData(textfile);
+        java.util.List<String[]> retrieveCustomerData = retrievedMap.get("customerData");
+        java.util.List<String[]> retrieveOtherData = retrievedMap.get("otherData");
+        setRetrieveCustomerData(retrieveCustomerData);
+        setRetrieveOtherData(retrieveOtherData);
+        
         jframe_TopUp = new JFrame("Top-Up");
         jpanel_TopUp = new JPanel();
         comboboxName = new JComboBox<>();
         idLabel = new JLabel("Customer ID: ");
         creditLabel = new JLabel("Credit: ");
-
-        for (String[] customer : customerData) {
-            String cusName = customer[1];
-            comboboxName.addItem(cusName);
+        
+        
+        // retrieved customer data put into combobox
+        if (!retrieveCustomerData.isEmpty()) {
+            for (String[] customer : retrieveCustomerData) {                
+                if (customer.length > 1  && customer[1] != null && !customer[1].isEmpty()) {
+                    String cusName = customer[1];
+                    comboboxName.addItem(cusName);
+                }
+            }
+        }
+        else {
+            System.out.println("No customer data available.");
         }
 
         comboboxName.setSelectedIndex(-1);
@@ -262,12 +275,20 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         jframe_TopUp.setDefaultCloseOperation(jframe_TopUp.DISPOSE_ON_CLOSE);
         jframe_TopUp.setVisible(true);
     }
-
+    
+    public void setRetrieveCustomerData(java.util.List<String[]> customerData) {        
+        this.retrieveCustomerData = customerData;
+    }
+    
+    public void setRetrieveOtherData(java.util.List<String[]> otherData) {
+        this.retrieveOtherData = otherData;
+    }
+    
     // action performed methods for combobox at top up menu
     private void comboboxActionPerformed() {
         int selectedIndex = comboboxName.getSelectedIndex();
         if (selectedIndex != -1) {
-            String[] selectedCustomer = customerData.get(selectedIndex);
+            String[] selectedCustomer = retrieveCustomerData.get(selectedIndex);
             String cusID = selectedCustomer[0];
             String credit = selectedCustomer[4];
 
@@ -282,7 +303,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             double topUpCreditAmount = Double.parseDouble(creditInput.getText());
             int selectedIndex = comboboxName.getSelectedIndex();
             if (selectedIndex != -1) {
-                String[] selectedCustomer = customerData.get(selectedIndex);
+                String[] selectedCustomer = retrieveCustomerData.get(selectedIndex);
                 double currentCredit = Double.parseDouble(selectedCustomer[4]);
                 double updatedCredit = currentCredit + topUpCreditAmount;
                 selectedCustomer[4] = String.valueOf(updatedCredit);
@@ -290,16 +311,27 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
 
                 // Update the file with the modified data
                 try (PrintWriter writer = new PrintWriter(new FileWriter(textfile))) {
-                    for (String[] customer : customerData) {
-                        // Write each customer data back to the file
+                    // Write each customer data back to the file
+                    for (String[] customer : retrieveCustomerData) {                        
                         for (int i = 0; i < customer.length; i++) {
                             writer.print(customer[i]);
                             if (i < customer.length - 1) {
                                 writer.print(",");
                             }
-                        }
+                        }                        
                         writer.println(); // Move to the next line for the next customer
                     }
+                    // Writing otherData back to file
+                        for (String[] other : retrieveOtherData) {
+                            for (int i = 0; i < other.length; i++) {
+                                writer.print(other[i]);
+                                if (i < other.length - 1) {
+                                    writer.print(",");
+                                }
+                            }
+                            writer.println(); // Move to the next line for the next set of data
+                        }
+                        
                     JOptionPane.showMessageDialog(null, "Top Up " + "RM " + topUpCreditAmount + " Success", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
                 catch (IOException ex) {
@@ -366,9 +398,13 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     public void setTextAreaReceipt(String s) {
         textareaReceipt.setText(s);
     }
-
-    // read CustomerData method
-    public java.util.List<String[]> readCustomerData(String textfile) {
+    
+    // split read data into two files for rewrite later
+    public Map<String, java.util.List<String[]>> processData(String textfile) {
+        Map<String, java.util.List<String[]>> dataMap = new HashMap<>();
+        java.util.List<String[]> customerData = new ArrayList<>();
+        java.util.List<String[]> otherData = new ArrayList<>();    
+        
         try (BufferedReader br = new BufferedReader(new FileReader(textfile))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -379,16 +415,29 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                     String pass = parts[2];
                     String role = parts[3];
                     double credit = Double.parseDouble(parts[4]);
-                    //credit += currentCredit;
 
                     customerData.add(new String[]{cusID, cusName, pass, role, String.valueOf(credit)});
+                    
+                } else if (parts.length == 5 && !parts[3].trim().equalsIgnoreCase("Customer")) {
+                    String otherID = parts[0];
+                    String otherName = parts[1];
+                    String otherpass = parts[2];
+                    String otherRole = parts[3];
+                    double otherCredit = Double.parseDouble(parts[4]);
+                    
+                    otherData.add(new String[]{otherID, otherName, otherpass, otherRole, String.valueOf(otherCredit)});
                 }
             }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        return customerData;
+        
+        // put both list into the map
+        dataMap.put("customerData", customerData);
+        dataMap.put("otherData", otherData);
+        return dataMap;
+        
     }
 
     // variable declarations for actionPerformed method for RegisterPanel JFrame

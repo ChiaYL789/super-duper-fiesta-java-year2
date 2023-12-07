@@ -13,7 +13,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     ReadContents() {
     }
 
-    // variable declarations for readinterface method
+    // variable declarations for readInterface method
     JTable jtable;
     String[] col;
     Object[][] data;
@@ -108,10 +108,23 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         jframe_Edit.setVisible(true);
     }
 
+    // filepath 
+    String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
+
+    //clear text file before rewriting text file method
+    public void clearTextFile(String textfile) {
+        try (FileWriter fw = new FileWriter(textfile)) {
+
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+ 
     // nested class with user data details results, where the arraylist stores the user data read from the text file
     private class UserDataDetailsResults {
 
-        private List<String[]> filedata;
+        private final List<String[]> filedata;
 
         public UserDataDetailsResults(List<String[]> filedata) {
             this.filedata = filedata;
@@ -123,19 +136,6 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
 
         public void clearFileData() {
             filedata.clear();
-        }
-    }
-
-    // filepath 
-    String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
-
-    //clear text file before rewriting text file method
-    public void clearTextFile(String textfile) {
-        try (FileWriter fw = new FileWriter(textfile)) {
-
-        }
-        catch (IOException e) {
-            System.out.println(e);
         }
     }
 
@@ -164,7 +164,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
                     Object obj = model.getValueAt(row, col);
                     String value = obj == null ? "null" : obj.toString();   //Checks if 'obj' is null. If so, assigns "null" to 'value';
                     joiner.add(value);                             // otherwise, converts 'obj' to a string using its toString() method and sets that as 'value'.
-                    // This prevents potential NullPointerExceptions when handling 'obj'.                    
+                                                                            // This prevents potential NullPointerExceptions when handling 'obj'.                    
                 }
                 bw.write(joiner.toString());
                 bw.newLine();
@@ -193,8 +193,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
             br.close();
             return data;
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (IOException e) {
             return null;
         }
     }
