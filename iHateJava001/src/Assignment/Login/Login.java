@@ -5,6 +5,7 @@
 package Assignment.Login;
 
 import Assignment.AdminAll.RegisterPanel;
+import Assignment.AdminAll.RegisterPanel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -225,8 +226,7 @@ public class Login extends javax.swing.JFrame {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 4) {
-
+                if (parts.length == 5) {
                     String storedUsername = parts[1];
                     String storedPassword = parts[2];
                     String role = parts[3];
@@ -238,6 +238,7 @@ public class Login extends javax.swing.JFrame {
                                 RegisterPanel registerPanel = new RegisterPanel(); // Create an instance of RegisterPanel
                                 registerPanel.setVisible(true);
                                 this.dispose();
+                                
                             }
                             case "runner" -> System.out.println("runner");
                             case "vendor" -> {
@@ -255,6 +256,7 @@ public class Login extends javax.swing.JFrame {
             System.out.println("Login failed. Please check your username and password.");
             e.printStackTrace();
         }
+        
     }//GEN-LAST:event_LOGIN_btnActionPerformed
 
 

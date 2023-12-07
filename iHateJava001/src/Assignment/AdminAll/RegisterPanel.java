@@ -15,8 +15,6 @@ public class RegisterPanel extends JFrame implements ActionListener {
         public static final String renameThis = "user_data.txt";            
     }   
 
-    private Read read;
-    
     ImageIcon logo;
     JLabel userLabel;
     JLabel passLabel;
@@ -164,16 +162,7 @@ public class RegisterPanel extends JFrame implements ActionListener {
         this.add(contentPanel); 
         
         this.setVisible(true);                  
-        // call Read file when Read button(the up thr that button)
-        //FileOperations.readFile(textfile, this); // 'this' refers to the RegisterPanel JFrame instance
-        
-        //call display table when update button
-        //JTable table = FileOperations.displayTable(textfile);
-    }
-    
-    public void initializeRead() {
-        read = new Read();
-    }
+    }   
      
     private FileOperations fop;
     private String user;
@@ -217,100 +206,32 @@ public class RegisterPanel extends JFrame implements ActionListener {
             }
         }
         else if (e.getSource() == Read) { //if menubar Read pressed, Read file
-            initializeRead();           
+            initializeRead();
+            read.ReadInterface();
         }
-        else if (e.getSource() == Update) { //menubar update pressed            
-            if(read != null){
-                read.edit();
+        else if (e.getSource() == Update) { //menubar update pressed     
+            initializeRead();
+            if (read != null) {
+                read.UpdateAndDelete();
                 EditModeManager.enterEditMode();
             }
         }
-        else if (e.getSource() == Delete) { //menubar delete pressed            
-             if(read != null){
-                read.edit();
+        else if (e.getSource() == Delete) { //menubar delete pressed     
+            initializeRead();
+            if (read != null) {
+                read.UpdateAndDelete();
                 EditModeManager.enterEditMode();
             }
         }
-    }   
+        else if (e.getSource() == TopUP) {
+            TopUpMenu topUpMenu = new TopUpMenu(); // Create an instance of topupmenu
+            this.dispose();
+        }
+    }
+
+    private Read read;
+
+    public void initializeRead() {
+        read = new Read();
+    }
 }
-
-    /*(if remove this comment, remove one } above)
-    //Getter and Setter for userid
-    public String getUserid(){
-        return userid;
-    }
-    
-    public void setUserid(String userid){
-        this.userid = userid;
-    }
-
-    
-    // Getter and Setter for user
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    // Getter and Setter for pass
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    // Getter and Setter for power
-    public String getPower() {
-        return power;
-    }
-
-    public void setPower(String power) {
-        this.power = power;
-    }
-
-    // Getter and Setter for userIDField
-    public JTextField getUserIDField() {
-        return userIDField;
-    }
-
-    public void setUserIDField(JTextField userIDField) {
-        this.userIDField = userIDField;
-    }
-
-    // Getter and Setter for userPasswordField
-    public JPasswordField getUserPasswordField() {
-        return userPasswordField;
-    }
-
-    public void setUserPasswordField(JPasswordField userPasswordField) {
-        this.userPasswordField = userPasswordField;
-    }
-
-    // Getter and Setter for textfile
-    public String getTextfile() {
-        return textfile;
-    }
-
-    public void setTextfile(String textfile) {
-        this.textfile = textfile;
-    }
-
-    // Getter and setter for credit
-    public double getCredit() {
-        return credit;
-    }
-
-    public void setCredit(double credit) {
-        this.credit = credit;
-    }
-}*/
-    
-    
- 
-        
-
-

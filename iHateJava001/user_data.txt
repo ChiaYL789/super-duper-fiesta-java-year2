@@ -1,6 +1,2 @@
-admin,123,admin
-customer,123,customer
-runner,123,runner
-vendor,123,vendor
-wenhung,123,vendor
-Java,123,vendor
+CT1,sharjk,customer,Customer,15282.0
+CT2,puppy,huhuh,Customer,8152.0

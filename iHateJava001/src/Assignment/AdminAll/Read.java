@@ -17,7 +17,10 @@ public class Read extends JFrame implements ActionListener, MouseListener {
     JScrollPane jscrollpane_Read;    
     
     Read() {
-
+    }
+    
+    void ReadInterface(){
+        
         jframe_Read = new JFrame("Read");
         col = new String[]{"UserID", "Name", "Password", "Role", "Credit"};
         data = getData();
@@ -37,7 +40,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
         jframe_Read.pack();
         jframe_Read.setLocationRelativeTo(null);
         jframe_Read.setDefaultCloseOperation(jframe_Read.DISPOSE_ON_CLOSE);
-        jframe_Read.setVisible(true);
+        jframe_Read.setVisible(true);    
     }
 
     JFrame jframe_Edit;
@@ -50,7 +53,7 @@ public class Read extends JFrame implements ActionListener, MouseListener {
     JButton deleteButton_Edit;
     JScrollPane jscrollpane_Edit;
 
-    void edit() { // edit method for update and delete        
+    void UpdateAndDelete() { // UpdateAndDelete method for update and delete        
         jframe_Edit = new JFrame("Edit");
         col = new String[]{"UserID", "Name", "Password", "Role", "Credit"};
         data = getData();

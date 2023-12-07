@@ -46,7 +46,7 @@ public class FileOperations {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                content.add(line + "\n"); //write into the textfile                        
+                content.add(line + "\n"); //write into the arraylist                        
             }
             return content;
 
