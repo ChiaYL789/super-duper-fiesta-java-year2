@@ -168,6 +168,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
                 }
                 bw.write(joiner.toString());
                 bw.newLine();
+                bw.close();
             }
         }
         catch (IOException exp) {
@@ -201,10 +202,10 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     // (ActionEvent) action performed method
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == deleteButton_Edit) { // delete button
-            clearTextFile(textfile);
+        if (e.getSource() == deleteButton_Edit) { // delete button            
             int i = jtable.getSelectedRow(); //i is the index of the selected row
             if (i >= 0) {
+                clearTextFile(textfile);
                 DefaultTableModel model = (DefaultTableModel) jtable.getModel();
                 model.removeRow(i);
                 saveNewFile("user_data.txt", model);
@@ -214,9 +215,9 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
             }
         }
         else if (e.getSource() == updateButton_Edit) {
-            clearTextFile(textfile);
             int i = jtable.getSelectedRow(); //i is the index of the selected row
-            if (i >= 0) {
+            if (i >= 0) {                
+                clearTextFile(textfile);
                 DefaultTableModel model = (DefaultTableModel) jtable.getModel();
                 model.setValueAt(idText_Edit.getText(), i, 0);
                 model.setValueAt(nameText_Edit.getText(), i, 1);

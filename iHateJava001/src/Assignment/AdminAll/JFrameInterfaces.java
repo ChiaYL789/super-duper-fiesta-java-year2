@@ -227,13 +227,26 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         comboboxName.setSelectedIndex(-1);
         comboboxName.addActionListener(e -> comboboxActionPerformed());
         topUpAmountLabel = new JLabel("Top-Up Amount: ");
-        creditInput = new JTextField(15); //here input add to textfile
+        creditInput = new JTextField(15); //here input add to textfile             
+        
         topUpButton = new JButton("Top-Up"); //when press, credit input taken
         topUpButton.addActionListener(e -> topUpButtonActionPerformed());
         receiptButton = new JButton("Receipt");
         receiptButton.addActionListener(e -> receiptButtonActionPerformed());
         notifButton = new JButton("Send Notifications");
         notifButton.addActionListener(e -> notifButtonActionPerformed()); // send notifications button
+      
+        creditInput.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c >= '0') && (c <= '9')
+                        || (c == KeyEvent.VK_BACK_SPACE)
+                        || (c == KeyEvent.VK_DELETE))) {
+                    getToolkit().beep();
+                    e.consume();
+                }
+            }
+        });
 
         //topUpButton.addActionListener(e -> generateReceiptMethodHere);
         comboboxName.setPreferredSize(new Dimension(100, 30));
@@ -462,6 +475,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                     otherData.add(new String[]{otherID, otherName, otherpass, otherRole, String.valueOf(otherCredit)});
                 }
             }
+            br.close();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -537,5 +551,4 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             TopUpMenu(); // TopUp Menu JFrame
         }
     }
-
 }

@@ -50,8 +50,9 @@ public class FileOperations {
             while ((line = reader.readLine()) != null) {
                 content.add(line + "\n"); //write into the arraylist                        
             }
+            reader.close();
             return content;
-
+            
         }
         catch (IOException e) {
             return null;
