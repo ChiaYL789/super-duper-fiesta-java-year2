@@ -17,3 +17,10 @@ Customer:daniel
 Customer:kiddo
 Customer:cokecola
 Customer:sprite
+Customer:kfc
+Customer:mcdonald
+Customer:green
+Customer:blue
+Customer:high
+Customer:eleven
+Customer:12

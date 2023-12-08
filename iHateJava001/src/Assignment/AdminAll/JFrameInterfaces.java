@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 public class JFrameInterfaces extends JFrame implements ActionListener {
@@ -186,7 +188,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     private double currentCredit;
 
     // Top UP Menu JFrame 
-    public void TopUpMenu() {
+    public void TopUpMenu () {
         
         Map<String, java.util.List<String[]>> retrievedMap = processData(textfile);
         java.util.List<String[]> retrieveCustomerData = retrievedMap.get("customerData");
@@ -280,6 +282,10 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         this.retrieveCustomerData = customerData;
     }
     
+    public java.util.List<String[]> getCustomerData() {
+        return this.retrieveCustomerData;
+    }
+    
     public void setRetrieveOtherData(java.util.List<String[]> otherData) {
         this.retrieveOtherData = otherData;
     }
@@ -294,10 +300,23 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
 
             idLabel.setText("Customer ID: " + cusID);
             creditLabel.setText("Credit: " + credit);
+            setCusID(cusID);
         }
     }
 
+    //getter and setter for stored Customer ID
+    private String storedCusID;
+    
+    private void setCusID(String cusID) {
+        this.storedCusID = cusID;
+    }
+    
+    private String getStoredCusID() {
+        return storedCusID;
+    }
+    
     // action performed methods for topUp button at top up menu
+    // when top up pressed, write customer data back into file, other data also write
     private void topUpButtonActionPerformed() {
         try {
             double topUpCreditAmount = Double.parseDouble(creditInput.getText());
@@ -354,15 +373,22 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
 
     }
 
-    // action performed methods for notif button at top up menu
-    private void notifButtonActionPerformed() {
-        sendNotif2Customer();
-    }
+    
+    // action performed methods for notif button at top up menu 
+    // write into notif.txt
+    private void notifButtonActionPerformed() { 
+        System.out.println(storedCusID);
+        try {
+            FileWriter notifWriter = new FileWriter("D:\\APU YEAR2\\Java\\ilovajava\\newJava\\iHateJava001\\notif.txt", true);
+            notifWriter.write("Admin" + "," + storedCusID + "," + "Successfully Top-Up" + "\n");
+            
+            notifWriter.close();
 
-    // send notif method
-    public void sendNotif2Customer() {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         JOptionPane.showMessageDialog(this, "Notifications Sent To Customer!");
-        // add thing to customer
+        
     }
 
     // Receipt JFrame @ TopUP menu variable declarations

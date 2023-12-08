@@ -36,3 +36,5 @@ Vendor:aasas
 Vendor:dogg
 Vendor:cat
 Vendor:100plus
+Vendor:wongkialun
+Vendor:wondidi
