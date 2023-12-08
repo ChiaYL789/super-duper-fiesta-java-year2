@@ -9,11 +9,12 @@ import javax.swing.table.TableModel;
 
 public class FileOperations {   
     
+    // Declare ArrayList as class-level variable
     static ArrayList<String> usersList = new ArrayList<>();
    
     // Read Table JFrame
     public static void read2JFrame(String textfile, JFrame parentFrame) {
-        List<String> content = readFile(textfile);
+        List<String> content = readFile(textfile); //string the data from the user_data text file and read it, then put into table
 
         for (String item : content) {
             String[] userDetails = item.split(",");
@@ -42,13 +43,13 @@ public class FileOperations {
     }
       
     // read file method
-    public static List<String> readFile(String textfile) { //read file from textfile
+    public static List<String> readFile(String textfile) { // read file from textfile
         try (BufferedReader reader = new BufferedReader(new FileReader(textfile))) {
             List<String> content = new ArrayList<>();
             String line;
 
             while ((line = reader.readLine()) != null) {
-                content.add(line + "\n"); //write into the arraylist                        
+                content.add(line + "\n"); // write into the arraylist                        
             }
             reader.close();
             return content;
@@ -59,24 +60,25 @@ public class FileOperations {
         }
     }
       
-    // register new user method
+    // registerNewUser method
     public static void registerNewUser(FileWriter writer, String textfile, String user, String pass, String power, double credit) {
-        // registerNewUser method
+        
         List<String> str = readFile(textfile);
         String prefix = "";
         int maxID = 0;
         int prevID = 0;
         switch (power) {
-            case "Vendor" ->
+            case "Vendor" -> // If vendor role, prefix is VD + number,
                 prefix = "VD";
-            case "Customer" ->
+            case "Customer" -> // If customer, CT
                 prefix = "CT";
-            case "Runner" ->
+            case "Runner" -> // If runner, RN
                 prefix = "RN";
             default ->
-                System.out.println("Role not available");
+                System.out.println("Role not available"); 
         }
-
+        
+        // for loop to read the data and create latest userID, with the largest numeric number
         for (String item : str) {
             String[] userDetails = item.split(",");
             String pre = userDetails[0].substring(0, 2);
@@ -88,7 +90,7 @@ public class FileOperations {
                 }
             }
         }
-        try {
+        try { //write data into textfile (user_data.txt)
             writer.write(prefix + ++maxID + "," + user + "," + pass + "," + power + "," + credit + "\n");
         }
         catch (IOException e) {
@@ -98,7 +100,7 @@ public class FileOperations {
 
     // make another copy of registered user in anther text file method
     public static void registerUser2OtherTxt(String user, String power) throws IOException {
-        //write user role into respective text file this is for vendor, vendorname+vendor(power)
+        // write user role into respective text file this is for vendor, vendorname+vendor(power), another write method
         switch (power) {
             case "Vendor":
                 FileWriter vendorWriter = new FileWriter("food_menu.txt", true);
@@ -116,27 +118,6 @@ public class FileOperations {
                 runWriter.close();
                 break;
         }
-    }
-
-    // generate userID method
-    private static String generateUserID(String power, int startingID) { //generate userID method
-        String prefix = getPrefix(power);
-        return prefix + String.format("%03d", startingID);
-    }
-    
-    // generate the prefix in front of userID method
-    private static String getPrefix(String power) { //get prefix
-        switch (power) {
-            case "Vendor":
-                return "VD";
-            case "Customer":
-                return "CT";
-            case "Runner":
-                return "RN";
-            default:
-                System.out.println("Invalid power specified");
-        }
-        return null;
     }
         
 }

@@ -22,15 +22,17 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
 
     // ReadContents Table interface 
     void ReadInterface() {
-
+        
+        // Creating a Jframe for displaying the table
         jframe_Read = new JFrame("Read");
         col = new String[]{"UserID", "Name", "Password", "Role", "Credit"};
-        data = getData();
+        data = getData(); // Retrieveing data for the table from file using getter.
 
+        //Creating a table model 
         DefaultTableModel model = new DefaultTableModel(data, col) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; //make table non editable
+                return false; // setting it to non-editable
             }
         };
 
@@ -38,6 +40,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         jtable.getTableHeader().setReorderingAllowed(false);
         jscrollpane_Read = new JScrollPane(jtable);
 
+        // Setting up the JFrame with the table
         jframe_Read.add(jscrollpane_Read);
         jframe_Read.pack();
         jframe_Read.setLocationRelativeTo(null);
@@ -109,9 +112,9 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     }
 
     // filepath 
-    String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
+    String textfile = JFrameInterfaces.getTextFilePath.userDataTextFile;
 
-    //clear text file before rewriting text file method
+    // Clear text file before rewriting text file method
     public void clearTextFile(String textfile) {
         try (FileWriter fw = new FileWriter(textfile)) {
 
@@ -121,10 +124,11 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         }
     }
  
-    // nested class with user data details results, where the arraylist stores the user data read from the text file
+    // Nested class with user data details results, 
+    // where the arraylist stores the user data read from the text file
     private class UserDataDetailsResults {
 
-        private final List<String[]> filedata;
+        private final List<String[]> filedata; // filedata stored user data details
 
         public UserDataDetailsResults(List<String[]> filedata) {
             this.filedata = filedata;
@@ -155,7 +159,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         return new UserDataDetailsResults(filedata);
     }
 
-    // save file method
+    // save file method, into a textfile
     public static void saveNewFile(String textfile, DefaultTableModel model) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(textfile, true))) {
             for (int row = 0; row < model.getRowCount(); row++) {
@@ -179,7 +183,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     // data retrieved converted into a  2d array list of "Objects"
     Object[][] getData() {
         try {
-            String textfile = JFrameInterfaces.FilePathChangeThis.renameThis;
+            String textfile = JFrameInterfaces.getTextFilePath.userDataTextFile;
             BufferedReader br = new BufferedReader(new FileReader(textfile));
             ArrayList<String> list = new ArrayList();
             String str = "";
@@ -199,13 +203,13 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         }
     }
 
-    // (ActionEvent) action performed method
+    // (ActionEvent) action performed methods
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == deleteButton_Edit) { // delete button            
+        if (e.getSource() == deleteButton_Edit) { // delete button@ JTable jframe , implements method for handling actions such as update and delete            
             int i = jtable.getSelectedRow(); //i is the index of the selected row
             if (i >= 0) {
-                clearTextFile(textfile);
+                clearTextFile(textfile); //clear textfile before rewriting the data 
                 DefaultTableModel model = (DefaultTableModel) jtable.getModel();
                 model.removeRow(i);
                 saveNewFile("user_data.txt", model);
@@ -214,10 +218,10 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
                 JOptionPane.showMessageDialog(null, "Failed to Delete User !", "Warning", JOptionPane.WARNING_MESSAGE);
             }
         }
-        else if (e.getSource() == updateButton_Edit) {
+        else if (e.getSource() == updateButton_Edit) { // update button@JTable jframe
             int i = jtable.getSelectedRow(); //i is the index of the selected row
             if (i >= 0) {                
-                clearTextFile(textfile);
+                clearTextFile(textfile); // clear textfile before rewriting the data 
                 DefaultTableModel model = (DefaultTableModel) jtable.getModel();
                 model.setValueAt(idText_Edit.getText(), i, 0);
                 model.setValueAt(nameText_Edit.getText(), i, 1);
@@ -234,7 +238,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
 
     // (MouseEvent) mouse clicked method
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) { // when one of the data in the Jtable is clicked by mouse
         if (ReadContents.isInEditMode()) {
             int i = jtable.getSelectedRow(); ///i is the index of the selected row
             DefaultTableModel model = (DefaultTableModel) jtable.getModel();
@@ -250,7 +254,8 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     }
 
     private static boolean isInEditMode = false;
-
+    
+    // Edit mode methods for JTable Jframe
     public static void enterEditMode() {
         isInEditMode = true;
     }
@@ -263,6 +268,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         return isInEditMode;
     }
     
+    // Un-used mouse event methods
     @Override
     public void mousePressed(MouseEvent e) {
 

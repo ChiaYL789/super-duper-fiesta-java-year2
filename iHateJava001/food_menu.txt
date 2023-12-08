@@ -38,3 +38,4 @@ Vendor:cat
 Vendor:100plus
 Vendor:wongkialun
 Vendor:wondidi
+Vendor:prefixtesting

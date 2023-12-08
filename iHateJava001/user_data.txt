@@ -1,6 +1,6 @@
 CT1,sharjk,customer,Customer,15726.0
-CT2,puppy,huhuh,Customer,8374.0
-CT3,kiddo,dog,Customer,468.0
+CT2,puppy,huhuh,Customer,1242717.0
+CT3,kiddo,dog,Customer,2.462464041E9
 CT5,sprite,1234,Customer,111.0
 CT6,kfc,ahahaha,Customer,158.0
 CT7,mcdonald,111,Customer,12711.0
@@ -15,3 +15,4 @@ RN1,pepsi,asdf,Runner,0.0
 VD2,wongkialun,asdf,Vendor,0.0
 VD3,wondidi,1234,Vendor,0.0
 RN2,twelve,1212,Runner,0.0
+VD4,prefixtesting,123haha,Vendor,0.0
