@@ -7,8 +7,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 public class JFrameInterfaces extends JFrame implements ActionListener {
@@ -16,11 +14,12 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     public JFrameInterfaces() {
     }
 
-    // string filepath into string for easier usage throughout whole program  
+    // string filepath into string for easier usage throughout whole program
     String textfile = JFrameInterfaces.getTextFilePath.userDataTextFile;
-    
-    ///// file path class here 
+
+    ///// file path class here
     class getTextFilePath {
+
         public static final String userDataTextFile = "user_data.txt";
     }
 
@@ -151,7 +150,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         backButton.setBounds(60, 250, 100, 25);
         backButton.setFocusable(false);
         backButton.addActionListener(this);
-        
+
         //content panel
         contentPanel.setBounds(50, 300, 400, 300);
         contentPanel.setLayout(new BorderLayout()); // BorderLayout for simplicity
@@ -192,31 +191,30 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     private JLabel idLabel;
     private JLabel creditLabel;
     private JComboBox<String> comboboxName;
-    private java.util.List<String[]> retrieveCustomerData = new ArrayList<>();    
+    private java.util.List<String[]> retrieveCustomerData = new ArrayList<>();
     private java.util.List<String[]> retrieveOtherData = new ArrayList<>();
     private double currentCredit;
 
-    // Top UP Menu JFrame 
-    public void TopUpMenu () {
-        
+    // Top UP Menu JFrame
+    public void TopUpMenu() {
+
         // retrieve data from textfile, splitting into two parts, other and customer data
         Map<String, java.util.List<String[]>> retrievedMap = processData(textfile);
         java.util.List<String[]> retrieveCustomerData = retrievedMap.get("customerData");
         java.util.List<String[]> retrieveOtherData = retrievedMap.get("otherData");
         setRetrieveCustomerData(retrieveCustomerData); //setter for customer data
         setRetrieveOtherData(retrieveOtherData); //setter for other data
-        
+
         jframe_TopUp = new JFrame("Top-Up");
         jpanel_TopUp = new JPanel();
         comboboxName = new JComboBox<>();
         idLabel = new JLabel("Customer ID: ");
         creditLabel = new JLabel("Credit: ");
-        
-        
+
         // retrieved customer data put into combobox
         if (!retrieveCustomerData.isEmpty()) {
-            for (String[] customer : retrieveCustomerData) {                
-                if (customer.length > 1  && customer[1] != null && !customer[1].isEmpty()) {
+            for (String[] customer : retrieveCustomerData) {
+                if (customer.length > 1 && customer[1] != null && !customer[1].isEmpty()) {
                     String cusName = customer[1];
                     comboboxName.addItem(cusName);
                 }
@@ -229,15 +227,15 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         comboboxName.setSelectedIndex(-1);
         comboboxName.addActionListener(e -> comboboxActionPerformed());
         topUpAmountLabel = new JLabel("Top-Up Amount: ");
-        creditInput = new JTextField(15); //here input add to textfile             
-        
+        creditInput = new JTextField(15); //here input add to textfile
+
         topUpButton = new JButton("Top-Up"); //when press, credit input taken
         topUpButton.addActionListener(e -> topUpButtonActionPerformed());
         receiptButton = new JButton("Receipt");
         receiptButton.addActionListener(e -> receiptButtonActionPerformed());
         notifButton = new JButton("Send Notifications");
         notifButton.addActionListener(e -> notifButtonActionPerformed()); // send notifications button
-      
+
         creditInput.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
@@ -249,14 +247,14 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                 }
             }
         });
-        
+
         comboboxName.setPreferredSize(new Dimension(100, 30));
         idLabel.setPreferredSize(new Dimension(120, 30));
         creditLabel.setPreferredSize(new Dimension(100, 30));
         topUpAmountLabel.setPreferredSize(new Dimension(100, 30));
         jpanel_TopUp.setPreferredSize(new Dimension(400, 350));
         jpanel_TopUp.setBackground(Color.WHITE);
-        
+
         jpanel_TopUp.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -300,22 +298,22 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         jframe_TopUp.setDefaultCloseOperation(jframe_TopUp.DISPOSE_ON_CLOSE);
         jframe_TopUp.setVisible(true);
     }
-    
+
     // setter method for customer data retrieval
-    public void setRetrieveCustomerData(java.util.List<String[]> customerData) {        
+    public void setRetrieveCustomerData(java.util.List<String[]> customerData) {
         this.retrieveCustomerData = customerData;
     }
-    
+
     // getter method for customer data retrieval
     public java.util.List<String[]> getCustomerData() {
         return this.retrieveCustomerData;
     }
-    
+
     // setter data method for other data retrieval
     public void setRetrieveOtherData(java.util.List<String[]> otherData) {
         this.retrieveOtherData = otherData;
     }
-    
+
     // action performed methods for combobox at top up menu
     private void comboboxActionPerformed() { //when combobox selected, retrieve data based on customer name
         int selectedIndex = comboboxName.getSelectedIndex();
@@ -332,15 +330,15 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
 
     //getter and setter for stored Customer ID
     private String storedCusID;
-    
+
     private void setCusID(String cusID) {
         this.storedCusID = cusID;
     }
-    
+
     private String getStoredCusID() {
         return storedCusID;
     }
-    
+
     // action performed methods for topUp button at top up menu
     // when top up pressed, write customer data & other data back into text file
     private void topUpButtonActionPerformed() {
@@ -357,26 +355,26 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                 // Update the file with the modified data
                 try (PrintWriter writer = new PrintWriter(new FileWriter(textfile))) {
                     // Write each customer data back to the file
-                    for (String[] customer : retrieveCustomerData) {                        
+                    for (String[] customer : retrieveCustomerData) {
                         for (int i = 0; i < customer.length; i++) {
                             writer.print(customer[i]);
                             if (i < customer.length - 1) {
                                 writer.print(","); // Split data with ","
                             }
-                        }                        
+                        }
                         writer.println(); // Move to the next line for the next customer
                     }
                     // Writing otherData back to file
-                        for (String[] other : retrieveOtherData) {
-                            for (int i = 0; i < other.length; i++) {
-                                writer.print(other[i]);
-                                if (i < other.length - 1) {
-                                    writer.print(","); // Split data with ","
-                                }
+                    for (String[] other : retrieveOtherData) {
+                        for (int i = 0; i < other.length; i++) {
+                            writer.print(other[i]);
+                            if (i < other.length - 1) {
+                                writer.print(","); // Split data with ","
                             }
-                            writer.println(); // Move to the next line for the next set of data
                         }
-                        // top up success message dialog
+                        writer.println(); // Move to the next line for the next set of data
+                    }
+                    // top up success message dialog
                     JOptionPane.showMessageDialog(null, "Top Up " + "RM " + topUpCreditAmount + " Success", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
                 catch (IOException ex) {
@@ -397,18 +395,19 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                 + "Top Up Success: RM " + credit + "\n\n"
                 + "   ----- THANK YOU! -----");
     }
-    
-    // action performed methods for notif button at top up menu 
-    // write into notif.txt
-    private void notifButtonActionPerformed() {        
-        try { 
-            FileWriter notifWriter = new FileWriter("D:\\APU YEAR2\\Java\\ilovajava\\newJava\\iHateJava001\\notif.txt", true);
-            notifWriter.write("Admin" + "," + storedCusID + "," + "Successfully Top-Up" + "\n");            
-            notifWriter.close(); 
 
-        } catch (IOException e) {
+    // action performed methods for notif button at top up menu
+    // write into notif.txt
+    private void notifButtonActionPerformed() {
+        try {
+            FileWriter notifWriter = new FileWriter("D:\\APU YEAR2\\Java\\ilovajava\\newJava\\iHateJava001\\notif.txt", true);
+            notifWriter.write("Admin" + "," + storedCusID + "," + "Successfully Top-Up" + "\n");
+            notifWriter.close();
+
+        }
+        catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
         JOptionPane.showMessageDialog(this, "Notifications Sent To Customer!");
         // notification success pop up message dialog
     }
@@ -446,13 +445,13 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     public void setTextAreaReceipt(String s) {
         textareaReceipt.setText(s);
     }
-    
+
     // split read data into two files for rewrite later, use getter and setter methods
     public Map<String, java.util.List<String[]>> processData(String textfile) {
         Map<String, java.util.List<String[]>> dataMap = new HashMap<>();
         java.util.List<String[]> customerData = new ArrayList<>();
-        java.util.List<String[]> otherData = new ArrayList<>();    
-        
+        java.util.List<String[]> otherData = new ArrayList<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(textfile))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -465,14 +464,15 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
                     double credit = Double.parseDouble(parts[4]);
 
                     customerData.add(new String[]{cusID, cusName, pass, role, String.valueOf(credit)});
-                    
-                } else if (parts.length == 5 && !parts[3].trim().equalsIgnoreCase("Customer")) {
+
+                }
+                else if (parts.length == 5 && !parts[3].trim().equalsIgnoreCase("Customer")) {
                     String otherID = parts[0];
                     String otherName = parts[1];
                     String otherpass = parts[2];
                     String otherRole = parts[3];
                     double otherCredit = Double.parseDouble(parts[4]);
-                    
+
                     otherData.add(new String[]{otherID, otherName, otherpass, otherRole, String.valueOf(otherCredit)});
                 }
             }
@@ -481,12 +481,12 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         // put both list into the map
         dataMap.put("customerData", customerData);
         dataMap.put("otherData", otherData);
         return dataMap;
-        
+
     }
 
     // variable declarations for actionPerformed method for RegisterPanel JFrame
@@ -499,37 +499,37 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
 
     // action performed methods for RegisterPanel JFrame
     @Override
-    public void actionPerformed(ActionEvent e) { 
+    public void actionPerformed(ActionEvent e) {
         fop = new FileOperations();
 
-        if (e.getSource() == resetButton) { // resetbutton clicked, clear both textFields          
+        if (e.getSource() == resetButton) { // resetbutton clicked, clear both textFields
             userIDField.setText("");
             userPasswordField.setText("");
             x.setSelectedIndex(0);
         }
-        else if(e.getSource() == backButton) { // back button clicked, exit to login interface
+        else if (e.getSource() == backButton) { // back button clicked, exit to login interface
             Login login = new Login(); // create new instance of login main class
             login.setVisible(true); //call class
             this.dispose(); // close the register panel JFrame
         }
-        else if (e.getSource() == registerButton) { // registerbutton            
+        else if (e.getSource() == registerButton) { // registerbutton
             String userName = userIDField.getText(); // string both user and pass textfield into 2 variables(userName&password)
             String password = new String(userPasswordField.getPassword());
 
             // if statement to ensure both textfields are not empty, both need to have input
             if (userName != null && !userName.isEmpty() && password != null && !password.isEmpty()) {
                 try (FileWriter writer = new FileWriter(textfile, true)) {
-                    user = userIDField.getText(); 
+                    user = userIDField.getText();
                     pass = new String(userPasswordField.getPassword());
                     power = x.getSelectedItem().toString();
                     fop.registerNewUser(writer, textfile, user, pass, x.getSelectedItem().toString(), credit); // registerNewUser method from file operations
-                    
-                   // After finish writing data, reset textfields and combobox to first index (Vendor)
-                    x.setSelectedIndex(0); 
+
+                    // After finish writing data, reset textfields and combobox to first index (Vendor)
+                    x.setSelectedIndex(0);
                     userIDField.setText("");
                     userPasswordField.setText("");
                     JOptionPane.showMessageDialog(this, "Registration Successful");
-                    fop.registerUser2OtherTxt(user, power); // Write user data to a different text file method from file operations, which is used by other roles          
+                    fop.registerUser2OtherTxt(user, power); // Write user data to a different text file method from file operations, which is used by other roles
                 }
                 catch (IOException ex) {
                     System.out.println("Error: Unable to register user");
@@ -540,13 +540,13 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             }
         }
         else if (e.getSource() == Read) { //if menubar ReadContents pressed, ReadContents file
-            initializeRead(); 
+            initializeRead();
             read.ReadInterface(); // launch the read JFrame with table with data populated
         }
-        else if (e.getSource() == Modify) { //menubar modify pressed     
+        else if (e.getSource() == Modify) { //menubar modify pressed
             initializeRead();
             if (read != null) {
-                read.UpdateAndDelete(); // display JFrame for update and deleting 
+                read.UpdateAndDelete(); // display JFrame for update and deleting
                 ReadContents.enterEditMode(); // enter edit mode of read contents
             }
         }

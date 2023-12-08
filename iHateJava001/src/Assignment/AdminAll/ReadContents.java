@@ -2,10 +2,10 @@ package Assignment.AdminAll;
 
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import javax.swing.*;
 import javax.swing.table.*;
 
 public class ReadContents extends JFrame implements ActionListener, MouseListener {
@@ -20,15 +20,15 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     JFrame jframe_Read;
     JScrollPane jscrollpane_Read;
 
-    // ReadContents Table interface 
+    // ReadContents Table interface
     void ReadInterface() {
-        
+
         // Creating a Jframe for displaying the table
         jframe_Read = new JFrame("Read");
         col = new String[]{"UserID", "Name", "Password", "Role", "Credit"};
         data = getData(); // Retrieveing data for the table from file using getter.
 
-        //Creating a table model 
+        //Creating a table model
         DefaultTableModel model = new DefaultTableModel(data, col) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -59,16 +59,16 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     JButton deleteButton_Edit;
     JScrollPane jscrollpane_Edit;
 
-    // UpdateAndDelete method for update and delete 
+    // UpdateAndDelete method for update and delete
     void UpdateAndDelete() {
         jframe_Edit = new JFrame("Edit");
         col = new String[]{"UserID", "Name", "Password", "Role", "Credit"};
         data = getData();
 
         DefaultTableModel model = new DefaultTableModel(data, col); // get table model
-        model.setColumnIdentifiers(col); //set column identifiers        
-        jtable = new JTable(model); // new table  
-        jtable.addMouseListener(this); // add mouse listener        
+        model.setColumnIdentifiers(col); //set column identifiers
+        jtable = new JTable(model); // new table
+        jtable.addMouseListener(this); // add mouse listener
         jtable.setBackground(Color.LIGHT_GRAY); // table customization
         jtable.setForeground(Color.black);
         jtable.setFont(new Font("Consolas", Font.PLAIN, 12));
@@ -92,7 +92,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         updateButton_Edit.addActionListener(this); // JButtons add actionlistener
         deleteButton_Edit.addActionListener(this);
 
-        jtable.setModel(model); // set the model into the table        
+        jtable.setModel(model); // set the model into the table
         jscrollpane_Edit = new JScrollPane(jtable); // create JScrollPane
         jscrollpane_Edit.setBounds(0, 0, 880, 200);
 
@@ -111,7 +111,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         jframe_Edit.setVisible(true);
     }
 
-    // filepath 
+    // filepath
     String textfile = JFrameInterfaces.getTextFilePath.userDataTextFile;
 
     // Clear text file before rewriting text file method
@@ -123,8 +123,8 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
             System.out.println(e);
         }
     }
- 
-    // Nested class with user data details results, 
+
+    // Nested class with user data details results,
     // where the arraylist stores the user data read from the text file
     private class UserDataDetailsResults {
 
@@ -168,7 +168,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
                     Object obj = model.getValueAt(row, col);
                     String value = obj == null ? "null" : obj.toString();   //Checks if 'obj' is null. If so, assigns "null" to 'value';
                     joiner.add(value);                             // otherwise, converts 'obj' to a string using its toString() method and sets that as 'value'.
-                                                                            // This prevents potential NullPointerExceptions when handling 'obj'.                    
+                    // This prevents potential NullPointerExceptions when handling 'obj'.
                 }
                 bw.write(joiner.toString());
                 bw.newLine();
@@ -206,10 +206,10 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     // (ActionEvent) action performed methods
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == deleteButton_Edit) { // delete button@ JTable jframe , implements method for handling actions such as update and delete            
+        if (e.getSource() == deleteButton_Edit) { // delete button@ JTable jframe , implements method for handling actions such as update and delete
             int i = jtable.getSelectedRow(); //i is the index of the selected row
             if (i >= 0) {
-                clearTextFile(textfile); //clear textfile before rewriting the data 
+                clearTextFile(textfile); //clear textfile before rewriting the data
                 DefaultTableModel model = (DefaultTableModel) jtable.getModel();
                 model.removeRow(i);
                 saveNewFile("user_data.txt", model);
@@ -220,8 +220,8 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
         }
         else if (e.getSource() == updateButton_Edit) { // update button@JTable jframe
             int i = jtable.getSelectedRow(); //i is the index of the selected row
-            if (i >= 0) {                
-                clearTextFile(textfile); // clear textfile before rewriting the data 
+            if (i >= 0) {
+                clearTextFile(textfile); // clear textfile before rewriting the data
                 DefaultTableModel model = (DefaultTableModel) jtable.getModel();
                 model.setValueAt(idText_Edit.getText(), i, 0);
                 model.setValueAt(nameText_Edit.getText(), i, 1);
@@ -254,7 +254,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     }
 
     private static boolean isInEditMode = false;
-    
+
     // Edit mode methods for JTable Jframe
     public static void enterEditMode() {
         isInEditMode = true;
@@ -267,7 +267,7 @@ public class ReadContents extends JFrame implements ActionListener, MouseListene
     public static boolean isInEditMode() {
         return isInEditMode;
     }
-    
+
     // Un-used mouse event methods
     @Override
     public void mousePressed(MouseEvent e) {
