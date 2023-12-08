@@ -1,5 +1,6 @@
 package Assignment.AdminAll;
 
+import Assignment.Login.Login;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -39,6 +40,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     JComboBox x;
     JButton registerButton;
     JButton resetButton;
+    JButton backButton;
     JMenuBar menuBar;
     JMenu Registration;
     JMenuItem Register;
@@ -135,15 +137,20 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
 
         //register and reset button
         registerButton = new JButton("Register");
-        registerButton.setBounds(250, 250, 100, 25);
+        registerButton.setBounds(300, 250, 100, 25);
         registerButton.setFocusable(false);
         registerButton.addActionListener(this);
 
         resetButton = new JButton("Reset");
-        resetButton.setBounds(100, 250, 100, 25);
+        resetButton.setBounds(180, 250, 100, 25);
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
 
+        backButton = new JButton("Back");
+        backButton.setBounds(60, 250, 100, 25);
+        backButton.setFocusable(false);
+        backButton.addActionListener(this);
+        
         //content panel
         contentPanel.setBounds(50, 300, 400, 300);
         contentPanel.setLayout(new BorderLayout()); // BorderLayout for simplicity
@@ -165,6 +172,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
         this.add(x); //combobox
         this.add(registerButton);
         this.add(resetButton);
+        this.add(backButton);
         this.setJMenuBar(menuBar);
         this.add(contentPanel);
 
@@ -377,7 +385,7 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
     // action performed methods for notif button at top up menu 
     // write into notif.txt
     private void notifButtonActionPerformed() { 
-        System.out.println(storedCusID);
+        
         try {
             FileWriter notifWriter = new FileWriter("D:\\APU YEAR2\\Java\\ilovajava\\newJava\\iHateJava001\\notif.txt", true);
             notifWriter.write("Admin" + "," + storedCusID + "," + "Successfully Top-Up" + "\n");
@@ -483,6 +491,11 @@ public class JFrameInterfaces extends JFrame implements ActionListener {
             userIDField.setText("");
             userPasswordField.setText("");
             x.setSelectedIndex(0);
+        }
+        else if(e.getSource() == backButton) {
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
         }
         else if (e.getSource() == registerButton) { //registerbutton            
             String userID = userIDField.getText();
